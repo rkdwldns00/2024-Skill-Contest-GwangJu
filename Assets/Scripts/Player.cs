@@ -11,6 +11,8 @@ public class Player : MonoBehaviour, IResetable
     public bool haveDoubleJump { get; set; } = false;
     public bool haveDash { get; set; }=false;
 
+    public float stunTimer { get; set; } = 0f;
+
     public Vector3 dashDirection { get; set; } = Vector2.zero;
     Vector3 originPos;
     bool powerOverWhelming = false;
@@ -24,6 +26,13 @@ public class Player : MonoBehaviour, IResetable
 
     void Update()
     {
+        stunTimer -= Time.deltaTime;
+        if(stunTimer > 0)
+        {
+            rigid.velocity = Vector3.zero;
+            return;
+        }
+
         if (dashDirection != Vector3.zero)
         {
             transform.position += dashDirection * moveSpeed * Time.deltaTime;
