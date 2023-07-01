@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
 
     public List<IResetable> resetable = new List<IResetable>();
 
+    int life = 10;
+
     public static void AddResetable(IResetable listener)
     {
         instance.resetable.Add(listener);
@@ -35,12 +37,16 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            life = Mathf.Min(10, life + 1);
+        }
     }
 
     public void ResetLevel()
     {
         resetable.RemoveAll((x) => x == null);
         resetable.ForEach((x) => { x.ResetObject(); });
+        life--;
     }
 }

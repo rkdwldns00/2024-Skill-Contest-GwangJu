@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IResetable
 
     public Vector3 dashDirection { get; set; } = Vector2.zero;
     Vector3 originPos;
+    bool powerOverWhelming = false;
 
     void Start()
     {
@@ -42,6 +43,16 @@ public class Player : MonoBehaviour, IResetable
                 haveDoubleJump = false;
                 rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LevelManager.instance.ResetLevel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            powerOverWhelming = !powerOverWhelming;
         }
     }
 
