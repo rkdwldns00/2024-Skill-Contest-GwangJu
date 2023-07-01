@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public float jumpPower = 5;
     public Rigidbody rigid;
 
+    public Vector3 dashDirection = Vector2.zero;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -17,12 +19,24 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        RaycastHit hit;
-        if (rigid.SweepTest(Vector3.down, out hit, 0.1f))
+        if (dashDirection != Vector3.zero)
         {
-            rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, 0);
+            transform.position += dashDirection * moveSpeed * Time.deltaTime;
+            if (Input.GetAxisRaw("Horizontal") == 0)
+            {
+                dashDirection = Vector3.zero;
+                rigid.useGravity = true;
+            }
         }
-        rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
+        else
+        {
+            RaycastHit hit;
+            if (rigid.SweepTest(Vector3.down, out hit, 0.1f))
+            {
+                rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, 0);
+            }
+            rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class DashItem : MonoBehaviour,IItem
 {
+    public Vector2 direction;
+
     public void Use(Player player)
     {
-        player.rigid.useGravity = true;
-
+        player.rigid.useGravity = false;
+        player.rigid.velocity = Vector3.zero;
+        player.dashDirection = direction;
+        Destroy(gameObject);
     }
 }

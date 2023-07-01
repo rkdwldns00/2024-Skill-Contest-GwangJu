@@ -606,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b1fdac789522041aeef2453021f1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: {x: 1, y: 0}
 --- !u!1 &2142412035
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +643,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpPower: 5
   rigid: {fileID: 0}
-  dashDriction: 0
+  dashDirection: {x: 0, y: 0, z: 0}
 --- !u!54 &2142412037
 Rigidbody:
   m_ObjectHideFlags: 0
