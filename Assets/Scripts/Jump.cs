@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : MonoBehaviour, IUseable
+public class Jump : MonoBehaviour, IUseable, IResetable
 {
     public float jumpPower;
+    public bool isOnce;
+
+    private void Start()
+    {
+        LevelManager.AddResetable(this);
+    }
 
     public void Use(Player player)
     {
         player.rigid.velocity = new Vector3(player.rigid.velocity.x, jumpPower);
-        if (GetComponent<Collider>().isTrigger)
+        if (isOnce)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
-}
 
-public interface IUseable
-{
-    void Use(Player player);
+    public void ResetObject()
+    {
+        gameObject.SetActive(true);
+    }
 }

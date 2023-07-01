@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
@@ -11,10 +11,13 @@ public class Player : MonoBehaviour
     public bool haveDoubleJump { get; set; } = false;
 
     public Vector3 dashDirection { get; set; } = Vector2.zero;
+    Vector3 originPos;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        originPos = transform.position;
+        LevelManager.AddResetable(this);
     }
 
     void Update()
@@ -72,4 +75,22 @@ public class Player : MonoBehaviour
         rigid.useGravity = true;
         dashDirection = Vector3.zero;
     }
+
+    public void ResetObject()
+    {
+        transform.position = originPos;
+        EndDash();
+        rigid.velocity = Vector3.zero;
+        haveDoubleJump = false;
+    }
+}
+
+public interface IResetable
+{
+    void ResetObject();
+}
+
+public interface IUseable
+{
+    void Use(Player player);
 }

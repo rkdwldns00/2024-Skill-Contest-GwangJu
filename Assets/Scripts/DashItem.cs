@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashItem : MonoBehaviour,IUseable
+public class DashItem : MonoBehaviour,IUseable,IResetable
 {
     public Vector2 direction;
     public bool isOnce = true;
+
+    private void Start()
+    {
+        LevelManager.AddResetable(this);
+    }
 
     public void Use(Player player)
     {
@@ -14,7 +19,12 @@ public class DashItem : MonoBehaviour,IUseable
         player.dashDirection = direction;
         if (isOnce)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
+    }
+
+    public void ResetObject()
+    {
+        gameObject.SetActive(true);
     }
 }
