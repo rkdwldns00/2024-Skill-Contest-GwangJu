@@ -7,14 +7,14 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
-    public Rigidbody rigid;
+    public Rigidbody rigid { get; set; }
+    public bool haveDoubleJump { get; set; } = false;
 
-    public Vector3 dashDirection = Vector2.zero;
+    public Vector3 dashDirection { get; set; } = Vector2.zero;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-
     }
 
     void Update()
@@ -33,6 +33,12 @@ public class Player : MonoBehaviour
             GroundCheck();
 
             rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
+
+            if (Input.GetKeyDown(KeyCode.Space) && haveDoubleJump)
+            {
+                haveDoubleJump = false;
+                rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
+            }
         }
     }
 
