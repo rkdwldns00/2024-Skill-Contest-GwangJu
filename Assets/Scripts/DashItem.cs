@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashItem : MonoBehaviour,IItem
+public class DashItem : MonoBehaviour,IUseable
 {
     public Vector2 direction;
 

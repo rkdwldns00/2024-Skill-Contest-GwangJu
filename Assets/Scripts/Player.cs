@@ -33,14 +33,20 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             if (rigid.SweepTest(Vector3.down, out hit, 0.1f))
             {
-                rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, 0);
+                rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
             }
+
             rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<IItem>()?.Use(this);
+        other.GetComponent<IUseable>()?.Use(this);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        collision.transform.GetComponent<IUseable>()?.Use(this);
     }
 }
