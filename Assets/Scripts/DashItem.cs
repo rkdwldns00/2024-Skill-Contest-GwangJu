@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DashItem : MonoBehaviour,IUseable,IResetable
 {
-    public Vector2 direction;
     public bool isOnce = true;
 
     private void Start()
@@ -14,9 +13,7 @@ public class DashItem : MonoBehaviour,IUseable,IResetable
 
     public void Use(Player player)
     {
-        player.rigid.useGravity = false;
-        player.rigid.velocity = Vector3.zero;
-        player.dashDirection = direction;
+        player.haveDash = true;
         if (isOnce)
         {
             gameObject.SetActive(false);

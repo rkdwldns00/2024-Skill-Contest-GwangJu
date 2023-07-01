@@ -619,7 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b1fdac789522041aeef2453021f1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: -1, y: 0}
   isOnce: 1
 --- !u!1 &2142412035
 GameObject:

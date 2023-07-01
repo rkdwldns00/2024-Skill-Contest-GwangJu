@@ -9,6 +9,7 @@ public class Player : MonoBehaviour, IResetable
     public float jumpPower = 5;
     public Rigidbody rigid { get; set; }
     public bool haveDoubleJump { get; set; } = false;
+    public bool haveDash { get; set; }=false;
 
     public Vector3 dashDirection { get; set; } = Vector2.zero;
     Vector3 originPos;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour, IResetable
         {
             transform.position += dashDirection * moveSpeed * Time.deltaTime;
             rigid.velocity = Vector3.zero;
-            if (Input.GetAxisRaw("Horizontal") != 0)
+            if (Input.GetAxisRaw("Horizontal") == 0)
             {
                 EndDash();
             }
@@ -42,6 +43,12 @@ public class Player : MonoBehaviour, IResetable
             {
                 haveDoubleJump = false;
                 rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
+            }
+
+            if(Input.GetKeyDown(KeyCode.E) && Input.GetAxisRaw("Horizontal") != 0 && haveDash)
+            {
+                haveDash = false;
+                StartDash();
             }
         }
 
@@ -85,6 +92,13 @@ public class Player : MonoBehaviour, IResetable
         rigid.velocity = dashDirection * 2;
         rigid.useGravity = true;
         dashDirection = Vector3.zero;
+    }
+
+    void StartDash()
+    {
+        rigid.useGravity = false;
+        rigid.velocity = Vector3.zero;
+        dashDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
     }
 
     public void ResetObject()
