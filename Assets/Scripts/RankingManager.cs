@@ -21,7 +21,7 @@ public class RankingManager : MonoBehaviour
             for (int i = 0; i < 5; ++i)
             {
                 PlayerPrefs.SetString("rn" + i.ToString(), value[i].name);
-                PlayerPrefs.SetInt("ri" + i.ToString(), value[i].score);
+                PlayerPrefs.SetInt("rs" + i.ToString(), value[i].score);
             }
         }
     }
