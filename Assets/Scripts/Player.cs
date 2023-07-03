@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
-    public float dashPower = 5;
+    public float dashPower = 300;
     public Transform col;
 
     public Rigidbody rigid { get; set; }
