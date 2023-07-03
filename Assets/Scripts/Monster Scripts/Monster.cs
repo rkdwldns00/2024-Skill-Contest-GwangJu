@@ -8,6 +8,7 @@ public class Monster : MonoBehaviour, IResetable
     public float speed;
     public Rigidbody rb;
     public Vector3 originalPos;
+    public float stunTime;
 
     [Header("DownCheck Ray Info")]
     public float downRayX;
@@ -35,6 +36,12 @@ public class Monster : MonoBehaviour, IResetable
         Move();
         DownCheckRay();
         SideCheckRay();
+
+        if (stunTime > 0)
+        {
+            rb.velocity = Vector3.zero;
+            stunTime -= Time.deltaTime;
+        }
     }
 
     void DownCheckRay()

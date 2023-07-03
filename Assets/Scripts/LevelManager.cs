@@ -100,6 +100,14 @@ public class LevelManager : MonoBehaviour
         {
             FindObjectOfType<Player>().stunTimer = 0.5f;
         }
+        if (FindObjectsOfType<Monster>() != null)
+        {
+            Object[] monsters = FindObjectsOfType<Monster>();
+            foreach (Monster monster in monsters)
+            {
+                monster.stunTime = 0.5f;
+            }
+        }
     }
 
     public void SetRotate(float x, float y, float z)
