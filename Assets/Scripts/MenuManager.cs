@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviour
             if (RankingManager.ranking[i].score == 0) return;
 
             Text rankingInfoText = Instantiate(rankingInfoObj, rankingUIObj.transform).GetComponent<Text>();
-            rankingInfoText.text = RankingManager.ranking[i].name + RankingManager.ranking[i].score;
+            rankingInfoText.text = "\"" + RankingManager.ranking[i].name + "\", " + RankingManager.ranking[i].score;
         }
     }
 
