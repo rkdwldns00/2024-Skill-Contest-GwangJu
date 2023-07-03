@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -66,10 +67,17 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
+        if(life <= 0)
+        {
+            SceneManager.LoadScene("EndGameScene");
+        }
         resetable.RemoveAll((x) => x == null);
         resetable.ForEach((x) => { x.ResetObject(); });
         life--;
-        SetRotate(0, 0, 0);
+        if (transform.rotation != Quaternion.identity)
+        {
+            SetRotate(0, 0, 0);
+        }
     }
 
     public void SetRotate(Vector3 rotation)

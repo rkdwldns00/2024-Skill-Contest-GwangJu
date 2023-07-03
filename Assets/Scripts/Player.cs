@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, IResetable
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        originPos = transform.position;
+        originPos = transform.localPosition;
         LevelManager.AddResetable(this);
     }
 
@@ -68,6 +68,11 @@ public class Player : MonoBehaviour, IResetable
             LevelManager.instance.ResetLevel();
         }
 
+        if(Mathf.Abs(transform.position.y) > 12)
+        {
+            LevelManager.instance.ResetLevel();
+        }
+
         if (Input.GetKeyDown(KeyCode.F1))
         {
             powerOverWhelming = !powerOverWhelming;
@@ -104,7 +109,7 @@ public class Player : MonoBehaviour, IResetable
 
     public void ResetObject()
     {
-        transform.position = originPos;
+        transform.localPosition = originPos;
         rigid.velocity = Vector3.zero;
         haveDoubleJump = false;
     }
