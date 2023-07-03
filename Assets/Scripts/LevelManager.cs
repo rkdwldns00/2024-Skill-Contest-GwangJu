@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour
         rotateValue += rotateSpeed * Time.deltaTime;
 
         bool c = true;
-        monsters.ForEach((x) => { if(x != null) c = false; });
+        monsters.ForEach((x) => { if(x.gameObject.activeSelf) c = false; });
         if(c)
         {
             InGameManager.NextStage();
