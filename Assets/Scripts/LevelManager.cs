@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +30,8 @@ public class LevelManager : MonoBehaviour
 
     int life = 10;
 
+    List<Monster> monsters = new List<Monster>();
+
     public static void AddResetable(IResetable listener)
     {
         instance.resetable.Add(listener);
@@ -49,7 +53,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        monsters = FindObjectsOfType<Monster>().ToList();
     }
 
     // Update is called once per frame
@@ -63,6 +67,13 @@ public class LevelManager : MonoBehaviour
         rotateCentor.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(targetRotation), rotateValue);
         rotateSpeed += Time.deltaTime;
         rotateValue += rotateSpeed * Time.deltaTime;
+
+        bool c = true;
+        monsters.ForEach((x) => { if(x.gameObject.activeSelf) c = false; });
+        if(c)
+        {
+            InGameManager.NextStage();
+        }
     }
 
     public void ResetLevel()
