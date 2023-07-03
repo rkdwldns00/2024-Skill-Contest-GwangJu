@@ -14,6 +14,7 @@ public class RotateItem : MonoBehaviour, IUseable, IResetable
 
     public void Use(Player player)
     {
+        player.transform.position = transform.position;
         LevelManager.instance.SetRotate(targetRotation);
         gameObject.SetActive(false);
     }

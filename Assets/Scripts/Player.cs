@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
-    public float dashPower = 5;
+    public float dashPower = 300;
     public Transform col;
 
     public Rigidbody rigid { get; set; }
@@ -82,11 +82,14 @@ public class Player : MonoBehaviour, IResetable
     void GroundCheck()
     {
         RaycastHit hit;
-        if (rigid.SweepTest(Vector3.down, out hit, 0.1f))
+        if (rigid.SweepTest(Vector3.down, out hit, 0.02f))
         {
             if (hit.collider.GetComponent<Monster>()) hit.collider.GetComponent<Monster>().Die();
 
-            rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
+            if (hit.collider?.GetComponent<IUseable>() == null)
+            {
+                rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
+            }
         }
 
 
@@ -98,6 +101,14 @@ public class Player : MonoBehaviour, IResetable
         if (stunTimer <= 0)
         {
             collision?.transform?.GetComponent<IUseable>()?.Use(this);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (stunTimer <= 0)
+        {
+            other?.transform?.GetComponent<IUseable>()?.Use(this);
         }
     }
 
