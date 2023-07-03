@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 763867664503386020}
   - component: {fileID: 763867664503386023}
   - component: {fileID: 763867664503386024}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dash Monster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

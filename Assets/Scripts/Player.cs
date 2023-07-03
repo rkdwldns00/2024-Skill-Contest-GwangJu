@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
+    public float monsterCheckRayDis;
     public Rigidbody rigid { get; set; }
     public bool haveDoubleJump { get; set; } = false;
     public bool haveDash { get; set; }=false;
@@ -77,6 +78,8 @@ public class Player : MonoBehaviour, IResetable
         RaycastHit hit;
         if (rigid.SweepTest(Vector3.down, out hit, 0.1f))
         {
+            if (hit.collider.GetComponent<Monster>()) hit.collider.GetComponent<Monster>().Die();
+
             rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
         }
 
@@ -94,6 +97,12 @@ public class Player : MonoBehaviour, IResetable
     {
         EndDash();
         //collision.transform.GetComponent<IUseable>()?.Use(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, Vector3.down * monsterCheckRayDis);
     }
 
     void EndDash()
