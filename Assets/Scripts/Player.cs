@@ -7,7 +7,6 @@ public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
-    public float monsterCheckRayDis;
     public Rigidbody rigid { get; set; }
     public bool haveDoubleJump { get; set; } = false;
     public bool haveDash { get; set; }=false;
@@ -97,12 +96,6 @@ public class Player : MonoBehaviour, IResetable
     {
         EndDash();
         //collision.transform.GetComponent<IUseable>()?.Use(this);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, Vector3.down * monsterCheckRayDis);
     }
 
     void EndDash()

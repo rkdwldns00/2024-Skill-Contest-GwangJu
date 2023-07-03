@@ -5,7 +5,6 @@ public class InGameManager : MonoBehaviour
 {
     public static int currentStage; // 1, 2, 3, 4, 5 ¼ø¼­
     public static int score;
-    
     public static void NextStage()
     {
         if (currentStage == 5) SceneManager.LoadScene("EndGameScene");
