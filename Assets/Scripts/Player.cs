@@ -7,61 +7,68 @@ public class Player : MonoBehaviour, IResetable
 {
     public float moveSpeed = 3;
     public float jumpPower = 5;
+    public float dashPower = 5;
+    public Transform col;
+
     public Rigidbody rigid { get; set; }
     public bool haveDoubleJump { get; set; } = false;
-    public bool haveDash { get; set; }=false;
+    public bool haveDash { get; set; } = false;
 
     public float stunTimer { get; set; } = 0f;
 
-    public Vector3 dashDirection { get; set; } = Vector2.zero;
     Vector3 originPos;
     bool powerOverWhelming = false;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        originPos = transform.position;
+        originPos = transform.localPosition;
         LevelManager.AddResetable(this);
     }
 
     void Update()
     {
+        col.rotation = Quaternion.identity;
         stunTimer -= Time.deltaTime;
-        if(stunTimer > 0)
+        if (stunTimer > 0)
         {
             rigid.velocity = Vector3.zero;
             return;
-        }
-
-        if (dashDirection != Vector3.zero)
-        {
-            transform.position += dashDirection * moveSpeed * Time.deltaTime;
-            rigid.velocity = Vector3.zero;
-            if (Input.GetAxisRaw("Horizontal") == 0)
-            {
-                EndDash();
-            }
         }
         else
         {
             GroundCheck();
 
-            rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
-
-            if (Input.GetKeyDown(KeyCode.Space) && haveDoubleJump)
-            {
-                haveDoubleJump = false;
-                rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
-            }
-
-            if(Input.GetKeyDown(KeyCode.E) && Input.GetAxisRaw("Horizontal") != 0 && haveDash)
-            {
-                haveDash = false;
-                StartDash();
-            }
         }
 
+        if (Mathf.Abs(rigid.velocity.x) <= moveSpeed)
+        {
+            rigid.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigid.velocity.y, 0);
+        }
+        else
+        {
+            rigid.velocity = new Vector3(Mathf.Lerp(rigid.velocity.x, 0, Time.deltaTime / 2), rigid.velocity.y, rigid.velocity.z);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && haveDoubleJump)
+        {
+            haveDoubleJump = false;
+            rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && Input.GetAxisRaw("Horizontal") != 0 && haveDash)
+        {
+            haveDash = false;
+            StartDash();
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LevelManager.instance.ResetLevel();
+        }
+
+        if(Mathf.Abs(transform.position.y) > 12)
         {
             LevelManager.instance.ResetLevel();
         }
@@ -86,36 +93,23 @@ public class Player : MonoBehaviour, IResetable
         hit.collider?.GetComponent<IUseable>()?.Use(this);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        EndDash();
-        //other.GetComponent<IUseable>()?.Use(this);
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
-        EndDash();
-        //collision.transform.GetComponent<IUseable>()?.Use(this);
-    }
-
-    void EndDash()
-    {
-        rigid.velocity = dashDirection * 2;
-        rigid.useGravity = true;
-        dashDirection = Vector3.zero;
+        if (stunTimer <= 0)
+        {
+            collision?.transform?.GetComponent<IUseable>()?.Use(this);
+        }
     }
 
     void StartDash()
     {
-        rigid.useGravity = false;
-        rigid.velocity = Vector3.zero;
-        dashDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
+        //rigid.useGravity = false;
+        rigid.AddForce(new Vector3(Input.GetAxisRaw("Horizontal") * dashPower, 0, 0));
     }
 
     public void ResetObject()
     {
-        transform.position = originPos;
-        EndDash();
+        transform.localPosition = originPos;
         rigid.velocity = Vector3.zero;
         haveDoubleJump = false;
     }
