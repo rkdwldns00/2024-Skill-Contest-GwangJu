@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, IResetable
 {
     [Header("Move Info")]
     public float speed;
     public Rigidbody rb;
+    public Vector3 originalPos;
 
     [Header("DownCheck Ray Info")]
     public float downRayX;
@@ -20,7 +21,13 @@ public abstract class Monster : MonoBehaviour
 
     private void Awake()
     {
+        originalPos = transform.localPosition;
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        LevelManager.AddResetable(this);
     }
 
     protected virtual void Update()
@@ -65,5 +72,12 @@ public abstract class Monster : MonoBehaviour
         sideRayX *= -1;
     }
 
-    public void Die() => Destroy(gameObject);
+    public void Die() => gameObject.SetActive(false);
+
+    public void ResetObject()
+    {
+        speed = 1;
+        transform.localPosition = originalPos;
+        gameObject.SetActive(true);
+    }
 }

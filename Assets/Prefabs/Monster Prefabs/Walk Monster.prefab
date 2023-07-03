@@ -129,13 +129,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rb: {fileID: 0}
-  downRayX: -1
-  DownRaydis: 1
+  downRayX: 0
+  DownRaydis: 0.3
   downRayLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   sideRayX: -1
-  sideRayDis: 1
+  sideRayDis: 0.3
   sideRayLayer:
     serializedVersion: 2
     m_Bits: 64
