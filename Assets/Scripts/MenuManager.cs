@@ -7,13 +7,12 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public GameObject rankingUIObj;
-    public GameObject rankingCloseBtn;
+    public GameObject helpUIObj;
     public GameObject rankingInfoObj;
 
     public void OnRankingUI()
     {
         rankingUIObj.SetActive(true);
-        rankingCloseBtn.SetActive(true);
 
         foreach(Transform obj in rankingUIObj.GetComponentInChildren<Transform>())
         {
@@ -32,7 +31,21 @@ public class MenuManager : MonoBehaviour
     public void OffRankingUI()
     {
         rankingUIObj.SetActive(false);
-        rankingCloseBtn?.SetActive(false);
+    }
+
+    public void OnHelpUI()
+    {
+        helpUIObj.SetActive(true);
+    }
+
+    public void OffHelpUI()
+    {
+        helpUIObj.SetActive(false); 
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void StartGame()
