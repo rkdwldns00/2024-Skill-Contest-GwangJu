@@ -22,12 +22,4 @@ public class InGameManager : MonoBehaviour
         currentStage = stageIdx;
         SceneManager.LoadScene("Stage" + stageIdx + "Scene");
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            NextStage();
-        }
-    }
 }

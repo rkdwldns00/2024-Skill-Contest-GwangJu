@@ -69,16 +69,22 @@ public class LevelManager : MonoBehaviour
         rotateValue += rotateSpeed * Time.deltaTime;
 
         bool c = true;
-        monsters.ForEach((x) => { if(x.gameObject.activeSelf) c = false; });
-        if(c)
+        monsters.ForEach((x) => { if (x.gameObject.activeSelf) c = false; });
+        if (c)
         {
             InGameManager.NextStage();
         }
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            InGameManager.NextStage();
+        }
+
     }
 
     public void ResetLevel()
     {
-        if(life <= 0)
+        if (life <= 0)
         {
             SceneManager.LoadScene("EndGameScene");
         }
