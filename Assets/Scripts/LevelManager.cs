@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
+    public bool isDebuging;
+
     public List<IResetable> resetable = new List<IResetable>();
 
     [SerializeField] Transform rotateCentor;
@@ -79,6 +81,15 @@ public class LevelManager : MonoBehaviour
             InGameManager.score += score;
             InGameManager.score += life * 50;
             InGameManager.NextStage();
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.2f, Time.deltaTime * 5);
+        }
+        else
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, Time.deltaTime * 5);
         }
     }
 
