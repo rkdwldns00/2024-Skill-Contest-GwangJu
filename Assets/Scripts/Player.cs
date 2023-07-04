@@ -32,11 +32,15 @@ public class Player : MonoBehaviour, IResetable
         stunTimer -= Time.deltaTime;
         if (stunTimer > 0)
         {
+            rigid.useGravity = false;
             rigid.velocity = Vector3.zero;
+            col.gameObject.SetActive(false);
             return;
         }
         else
         {
+            col.gameObject.SetActive(true);
+            rigid.useGravity = true;
             GroundCheck();
 
         }
