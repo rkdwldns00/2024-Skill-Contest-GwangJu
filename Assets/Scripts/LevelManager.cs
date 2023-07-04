@@ -123,7 +123,7 @@ public class LevelManager : MonoBehaviour
         }
         if (FindObjectsOfType<Monster>() != null)
         {
-            Object[] monsters = FindObjectsOfType<Monster>();
+            Monster[] monsters = FindObjectsOfType<Monster>();
             foreach (Monster monster in monsters)
             {
                 monster.stunTime = 0.5f;
