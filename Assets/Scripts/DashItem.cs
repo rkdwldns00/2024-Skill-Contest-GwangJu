@@ -13,7 +13,7 @@ public class DashItem : MonoBehaviour,IUseable,IResetable
 
     public void Use(Player player)
     {
-        player.haveDash = true;
+        player.haveSkill = Player.Skill.Dash;
         if (isOnce)
         {
             gameObject.SetActive(false);
