@@ -10,6 +10,7 @@ public class Monster : MonoBehaviour, IResetable
     public Rigidbody rb;
     public Vector3 originalPos;
     public float stunTime;
+    public Transform model;
 
     [Header("DownCheck Ray Info")]
     public float downRayX;
@@ -43,6 +44,8 @@ public class Monster : MonoBehaviour, IResetable
             rb.velocity = Vector3.zero;
             stunTime -= Time.deltaTime;
         }
+
+        model.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
     }
 
     void DownCheckRay()
