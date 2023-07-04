@@ -13,7 +13,7 @@ public class DoubleJump : MonoBehaviour, IUseable, IResetable
 
     public void Use(Player player)
     {
-        player.haveDoubleJump = true;
+        player.haveSkill = Player.Skill.DoubleJump;
         if (isOnce)
         {
             gameObject.SetActive(false);

@@ -11,8 +11,8 @@ public class Player : MonoBehaviour, IResetable
     public Transform col;
 
     public Rigidbody rigid { get; set; }
-    public bool haveDoubleJump { get; set; } = false;
-    public bool haveDash { get; set; } = false;
+    public Skill haveSkill = Skill.None;
+    public enum Skill { None,Dash,DoubleJump}
 
     public float stunTimer { get; set; } = 0f;
 
@@ -54,15 +54,15 @@ public class Player : MonoBehaviour, IResetable
             rigid.velocity = new Vector3(Mathf.Lerp(rigid.velocity.x, 0, Time.deltaTime / 2), rigid.velocity.y, rigid.velocity.z);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && haveDoubleJump)
+        if (Input.GetKeyDown(KeyCode.Space) && haveSkill == Skill.DoubleJump)
         {
-            haveDoubleJump = false;
+            haveSkill = Skill.None;
             rigid.velocity = new Vector3(rigid.velocity.x, Mathf.Max(rigid.velocity.y, jumpPower), 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Input.GetAxisRaw("Horizontal") != 0 && haveDash)
+        if (Input.GetKeyDown(KeyCode.Space) && Input.GetAxisRaw("Horizontal") != 0 && haveSkill == Skill.Dash)
         {
-            haveDash = false;
+            haveSkill = Skill.None;
             StartDash();
         }
 
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour, IResetable
     {
         transform.localPosition = originPos;
         rigid.velocity = Vector3.zero;
-        haveDoubleJump = false;
+        haveSkill = Skill.None;
     }
 }
 

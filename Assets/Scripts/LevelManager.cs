@@ -32,9 +32,9 @@ public class LevelManager : MonoBehaviour
 
     public int life = 10;
     public int score = 0;
-    float mapTimer=0;
+    public float mapTimer=0;
 
-    List<Monster> monsters = new List<Monster>();
+    public List<Monster> monsters = new List<Monster>();
 
     public static void AddResetable(IResetable listener)
     {
