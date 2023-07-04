@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
     float rotateValue = 0f;
 
     public int life = 10;
+    float mapTimer=0;
 
     List<Monster> monsters = new List<Monster>();
 
@@ -59,6 +60,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        mapTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.F2))
         {
             life = Mathf.Min(10, life + 1);
@@ -70,24 +72,21 @@ public class LevelManager : MonoBehaviour
 
         bool c = true;
         monsters.ForEach((x) => { if (x.gameObject.activeSelf) c = false; });
-        if (c)
+        if (c || Input.GetKeyDown(KeyCode.F3))
         {
+            InGameManager.totalTimer += mapTimer;
             InGameManager.NextStage();
         }
-
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            InGameManager.NextStage();
-        }
-
     }
 
     public void ResetLevel()
     {
         if (life <= 0)
         {
+            InGameManager.totalTimer += mapTimer;
             SceneManager.LoadScene("EndGameScene");
         }
+        mapTimer = 0;
         resetable.RemoveAll((x) => x == null);
         resetable.ForEach((x) => { x.ResetObject(); });
         life--;

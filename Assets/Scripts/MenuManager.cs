@@ -38,6 +38,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         InGameManager.currentStage = 1;
+        InGameManager.totalTimer = 0;
         SceneManager.LoadScene("Stage1Scene");
     }
 }
