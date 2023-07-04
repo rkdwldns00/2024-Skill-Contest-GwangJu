@@ -112,6 +112,17 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void ResetLevel(float delay)
+    {
+        StartCoroutine(Delay(delay));
+    }
+
+    IEnumerator Delay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ResetLevel();
+    }
+
     public void SetRotate(Vector3 rotation)
     {
         targetRotation = rotation;

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IResetable
 
     public Rigidbody rigid { get; set; }
     public Skill haveSkill = Skill.None;
-    public enum Skill { None,Dash,DoubleJump}
+    public enum Skill { None, Dash, DoubleJump }
 
     public float stunTimer { get; set; } = 0f;
 
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour, IResetable
             LevelManager.instance.ResetLevel();
         }
 
-        if(Mathf.Abs(transform.position.y) > 12)
+        if (Mathf.Abs(transform.position.y) > 12)
         {
             LevelManager.instance.ResetLevel();
         }
@@ -88,7 +88,25 @@ public class Player : MonoBehaviour, IResetable
         RaycastHit hit;
         if (rigid.SweepTest(Vector3.down, out hit, 0.02f))
         {
-            if (hit.collider.GetComponent<Monster>()) hit.collider.GetComponent<Monster>().Die();
+            if (hit.collider.GetComponent<Monster>())
+            {
+                Collider[] cols = Physics.OverlapBox(transform.position - Vector3.down * 0.5f, new Vector3(0.1f, 1, 500), Quaternion.identity, 1 << LayerMask.NameToLayer("Monster"));
+                bool c = true;
+                foreach (Collider col in cols)
+                {
+                    if (hit.collider == col)
+                    {
+                        hit.collider.GetComponent<Monster>().Die();
+                        c = false;
+                        break;
+                    }
+                }
+                if (c)
+                {
+                    gameObject.SetActive(false);
+                    LevelManager.instance.ResetLevel(0.5f);
+                }
+            }
 
             if (hit.collider?.GetComponent<IUseable>() == null)
             {
@@ -127,6 +145,7 @@ public class Player : MonoBehaviour, IResetable
         transform.localPosition = originPos;
         rigid.velocity = Vector3.zero;
         haveSkill = Skill.None;
+        gameObject.SetActive(true);
     }
 }
 

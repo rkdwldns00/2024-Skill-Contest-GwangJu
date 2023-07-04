@@ -19,7 +19,7 @@ public class InGameUI : MonoBehaviour
         LevelManager.instance.monsters.ForEach((x) => { if (x.gameObject.activeSelf) c++; });
         t.text = "남은목숨 : " + LevelManager.instance.life
             + "\n남은적 : " + c
-            + "\n스킬 : " + FindObjectOfType<Player>().haveSkill
+            + "\n스킬 : " + FindObjectOfType<Player>()?.haveSkill ?? ""
             + "\n점수 : " + (InGameManager.score + LevelManager.instance.score)
             + "\n시간 : " + (int)(InGameManager.totalTimer + LevelManager.instance.mapTimer);
     }
