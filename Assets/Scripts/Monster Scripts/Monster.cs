@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour, IResetable
 {
+    public int score;
     [Header("Move Info")]
     public float speed;
     public Rigidbody rb;
@@ -48,7 +49,7 @@ public class Monster : MonoBehaviour, IResetable
     {
         Vector3 downVec = transform.position + new Vector3(downRayX, 0, 0);
         RaycastHit downHit;
-        
+
         Physics.Raycast(downVec, Vector3.down, out downHit, DownRaydis, downRayLayer);
         if (downHit.collider == null) Rotate();
     }
@@ -79,7 +80,11 @@ public class Monster : MonoBehaviour, IResetable
         sideRayX *= -1;
     }
 
-    public void Die() => gameObject.SetActive(false);
+    public void Die()
+    {
+        LevelManager.instance.score += score;
+        gameObject.SetActive(false);
+    }
 
     public void ResetObject()
     {

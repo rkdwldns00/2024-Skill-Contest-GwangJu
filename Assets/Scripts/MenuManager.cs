@@ -39,6 +39,7 @@ public class MenuManager : MonoBehaviour
     {
         InGameManager.currentStage = 1;
         InGameManager.totalTimer = 0;
+        InGameManager.score = 0;
         SceneManager.LoadScene("Stage1Scene");
     }
 }

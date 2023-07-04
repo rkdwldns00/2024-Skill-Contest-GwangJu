@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
     float rotateValue = 0f;
 
     public int life = 10;
+    public int score = 0;
     float mapTimer=0;
 
     List<Monster> monsters = new List<Monster>();
@@ -75,6 +76,8 @@ public class LevelManager : MonoBehaviour
         if (c || Input.GetKeyDown(KeyCode.F3))
         {
             InGameManager.totalTimer += mapTimer;
+            InGameManager.score += score;
+            InGameManager.score += life * 50;
             InGameManager.NextStage();
         }
     }
@@ -84,9 +87,11 @@ public class LevelManager : MonoBehaviour
         if (life <= 0)
         {
             InGameManager.totalTimer += mapTimer;
+            InGameManager.score += score;
             SceneManager.LoadScene("EndGameScene");
         }
         mapTimer = 0;
+        score = 0;
         resetable.RemoveAll((x) => x == null);
         resetable.ForEach((x) => { x.ResetObject(); });
         life--;
