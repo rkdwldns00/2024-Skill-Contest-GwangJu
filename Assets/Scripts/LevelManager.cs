@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     float rotateSpeed = 0f;
     float rotateValue = 0f;
 
-    int life = 10;
+    public int life = 10;
 
     List<Monster> monsters = new List<Monster>();
 
