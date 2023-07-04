@@ -9,6 +9,7 @@ public class Player : MonoBehaviour, IResetable
     public float jumpPower = 5;
     public float dashPower = 300;
     public Transform col;
+    public Transform model;
 
     public Rigidbody rigid { get; set; }
     public Skill haveSkill = Skill.None;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour, IResetable
     void Update()
     {
         col.rotation = Quaternion.identity;
+        model.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         stunTimer -= Time.deltaTime;
         if (stunTimer > 0)
         {
